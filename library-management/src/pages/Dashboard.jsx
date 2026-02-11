@@ -13,8 +13,8 @@ const Dashboard = () => {
 
   // ✅ Sirf Available Books
   const previewBooks = books
-    .filter((book) => book.status === "available")
-    .slice(0, 6);
+    .filter((book) => book.status === "available");
+    // .slice(0, 6);
 
   return (
     <div className="p-8 min-h-screen bg-gray-50">

@@ -26,14 +26,7 @@ const AddBook = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addBook({
-      title,
-      author,
-      category,
-      image, // image optional, placeholder auto-set in context
-      status: "available",
-      issueDate: null,
-    });
+    addBook({ title, author, category, image, status: "available", issueDate: null });
     setTitle(""); setAuthor(""); setCategory(""); setImage(null); setPreview(null);
     navigate("/books");
   };

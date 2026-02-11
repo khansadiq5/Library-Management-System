@@ -3,17 +3,24 @@ import Dashboard from "./pages/Dashboard";
 import Books from "./pages/Books";
 import AddBook from "./pages/AddBook";
 import Navbar from "./components/Navbar";
+import { LibraryProvider } from "./context/LibraryContext";
+import { UserProvider } from "./context/UserContext";
+import AuthPage from "./pages/AuthPage"; 
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar/>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/books" element={<Books />} />
-        <Route path="/add" element={<AddBook />} />
-      </Routes>
-    </BrowserRouter>
+    <UserProvider>
+      <LibraryProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<><Navbar /> <Dashboard /></>} />
+            <Route path="/books" element={<><Navbar /> <Books /></>} />
+            <Route path="/add" element={<><Navbar /> <AddBook /></>} />
+            <Route path="/auth" element={<AuthPage />} />
+          </Routes>
+        </BrowserRouter>
+      </LibraryProvider>
+    </UserProvider>
   );
 }
 
