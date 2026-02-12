@@ -122,7 +122,7 @@ const Dashboard = () => {
                   alt={book.title}
                   loading="lazy"
                   decoding="async"
-                  className="h-48 w-full object-cover transition-transform duration-300 hover:scale-105"
+                  className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
               <div className="p-5 flex flex-col flex-grow">
