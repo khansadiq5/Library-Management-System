@@ -6,7 +6,6 @@ const ProtectedAlertModal = ({ close }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 3 second baad automatically close ho jaye
     const timer = setTimeout(() => {
       close();
     }, 3000);

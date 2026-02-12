@@ -1,8 +1,7 @@
 import { useContext, useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import { BookOpen, Menu, X, User, LogIn, UserPlus, LogOut, ChevronDown, CheckCircle2 } from "lucide-react";
-import ProtectedAlertModal from "./ProtectedAlertModal";
+import { BookOpen, Menu, X, User, LogIn, UserPlus, LogOut, ChevronDown, CheckCircle2, AlertCircle } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation();
@@ -35,7 +34,6 @@ const Navbar = () => {
     logout();
     setShowDropdown(false);
     
-    // Check agar user protected page par hai toh home page pe bhej do
     if (location.pathname === "/books" || location.pathname === "/add") {
       setShowLogoutToast(true);
       setTimeout(() => {
@@ -45,16 +43,41 @@ const Navbar = () => {
     }
   };
 
-  const handleProtectedClick = (path) => {
+  const handleNavClick = (path, e) => {
     if (!user && (path === "/books" || path === "/add")) {
+      e.preventDefault(); 
+      setOpenMenu(false); 
       setShowProtectedAlert(true);
+      setTimeout(() => setShowProtectedAlert(false), 3000);
       return false;
     }
+    setOpenMenu(false);
     return true;
   };
 
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-lg bg-white/80 border-b border-gray-200 shadow-sm">
+      
+      {/* ===== PROFESSIONAL TOASTER (Dashboard Style) ===== */}
+      {showProtectedAlert && (
+        <div className="fixed top-24 right-4 md:right-8 z-[200] animate-[slideIn_0.4s_ease-out]">
+          <div className="flex items-center gap-4 bg-[#fef2f2] border border-[#fee2e2] px-6 py-4 rounded-[20px] shadow-xl min-w-[300px] md:min-w-[320px]">
+            <div className="bg-[#fee2e2] p-2 rounded-full flex items-center justify-center">
+              <AlertCircle className="text-[#dc2626]" size={20} />
+            </div>
+            <div className="flex-grow">
+              <p className="text-[#991b1b] font-bold text-sm leading-none">Access Denied!</p>
+              <p className="text-[#dc2626] text-xs mt-1 underline decoration-[#fca5a5]">
+                Please Login / Sign Up first
+              </p>
+            </div>
+            <button onClick={() => setShowProtectedAlert(false)} className="text-[#fca5a5]">
+              <X size={18} />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Logout Redirect Toast */}
       {showLogoutToast && (
         <div className="fixed top-20 right-8 z-[200] animate-[slideIn_0.4s_ease-out]">
@@ -67,7 +90,7 @@ const Navbar = () => {
 
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo Section */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
           <div className="bg-black text-white p-2 rounded-xl">
             <BookOpen size={20} />
           </div>
@@ -80,7 +103,7 @@ const Navbar = () => {
             <Link
               key={item.path}
               to={item.path}
-              onClick={(e) => !handleProtectedClick(item.path) && e.preventDefault()}
+              onClick={(e) => handleNavClick(item.path, e)}
               className={`relative text-sm font-medium transition duration-300 ${
                 location.pathname === item.path ? "text-black" : "text-gray-500 hover:text-black"
               }`}
@@ -93,15 +116,14 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Profile Dropdown Section - Updated to Black Theme */}
+        {/* Profile Dropdown */}
         <div className="flex items-center gap-4">
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setShowDropdown(!showDropdown)}
               className="flex items-center gap-3 hover:bg-gray-50 p-1.5 rounded-full transition-all"
             >
-              {/* Profile Icon: Changed from blue to Black/Gray */}
-              <div className="bg-gray-100 p-2 rounded-full text-black shadow-sm shadow-gray-200">
+              <div className="bg-gray-100 p-2 rounded-full text-black shadow-sm">
                 <User size={22} />
               </div>
               
@@ -156,8 +178,8 @@ const Navbar = () => {
             <Link
               key={item.path}
               to={item.path}
-              onClick={() => setOpenMenu(false)}
-              className="text-base font-medium text-gray-600"
+              onClick={(e) => handleNavClick(item.path, e)}
+              className={`text-base font-medium ${location.pathname === item.path ? "text-black" : "text-gray-600"}`}
             >
               {item.name}
             </Link>
@@ -171,11 +193,6 @@ const Navbar = () => {
           to { transform: translateX(0); opacity: 1; }
         }
       `}</style>
-
-      {/* Protected Route Alert */}
-      {showProtectedAlert && (
-        <ProtectedAlertModal close={() => setShowProtectedAlert(false)} />
-      )}
     </nav>
   );
 };

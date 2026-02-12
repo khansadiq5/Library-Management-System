@@ -7,7 +7,6 @@ const Dashboard = () => {
   const { books, user } = useContext(LibraryContext);
   const navigate = useNavigate();
   
-  // Alert control karne ke liye state
   const [showAuthAlert, setShowAuthAlert] = useState(false);
 
   const total = books.length;
@@ -17,7 +16,6 @@ const Dashboard = () => {
 
   const allAvailable = books.filter((book) => book.status === "available");
 
-  // Mobile optimization (Phone pe 6 books)
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const previewBooks = isMobile ? allAvailable.slice(0, 6) : allAvailable;
 
@@ -34,12 +32,10 @@ const Dashboard = () => {
   return (
     <div className="p-8 min-h-screen bg-gray-50 relative">
       
-      {/* ===== CUSTOM RED TOAST (Screenshot Match with Icon BG) ===== */}
       {showAuthAlert && (
         <div className="fixed top-24 right-8 z-[200] animate-[slideIn_0.4s_ease-out]">
           <div className="flex items-center gap-4 bg-[#fef2f2] border border-[#fee2e2] px-6 py-4 rounded-[20px] shadow-xl min-w-[320px]">
             
-            {/* ✅ Icon Background Light Red kiya hai */}
             <div className="bg-[#fee2e2] p-2 rounded-full flex items-center justify-center">
               <AlertCircle className="text-[#dc2626]" size={20} />
             </div>

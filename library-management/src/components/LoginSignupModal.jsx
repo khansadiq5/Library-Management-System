@@ -108,7 +108,6 @@ const LoginSignupModal = ({ close, initialIsLogin = true }) => {
           </p>
         </div>
 
-        {/* 3. Fixed: Added Relative wrapper to parent and this button works now */}
         <button 
           type="button"
           onClick={close}

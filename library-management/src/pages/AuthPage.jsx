@@ -13,7 +13,6 @@ const AuthPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Name agar Login mein khali hai toh Email se utha lega
     const finalName = formData.name || formData.email.split('@')[0];
     const userData = { name: finalName, email: formData.email, password: formData.password };
 
@@ -51,7 +50,6 @@ const AuthPage = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Ab Login aur Signup dono mein Name field dikhegi */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">Name</label>
             <input
